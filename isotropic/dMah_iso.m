@@ -29,7 +29,7 @@ function result = dMah_iso(a,Ms,He)
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
-% Jiles D. C. , Atherton D. „Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
+% Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis" Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 %
 % USAGE:
 % dM = dMah_iso(a, Ms, He)
