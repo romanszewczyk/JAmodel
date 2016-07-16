@@ -1,0 +1,1 @@
+Jiles-Atherton model for isotropic material.
