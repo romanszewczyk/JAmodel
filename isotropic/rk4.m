@@ -1,4 +1,4 @@
-function result = dMah_iso(a,Ms,He)
+function [t_res, y_res]=rk4(fun,time,f0,N)
 %
 % The MIT License (MIT)
 %
@@ -24,33 +24,41 @@ function result = dMah_iso(a,Ms,He)
 % 
 %
 % DESCRIPTION:
-% dMah_iso is the function for numerical differentiation of anhysteretic, isotropic magnetization over effective magnetic field He in Jiles-Atherton model
+% rk4 is the function for fixed steps solving ODEs by Runge-Kutta 4-th order method
+% WARNING: solver is fast, but accuracy is not controlled
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
-% Jiles D. C. , Atherton D. „Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
+% https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
 %
 % USAGE:
-% dM = dMah_iso(a, Ms, He)
+% [t_res, y_res]=rk4(fun,time,f0,N)
 % 
 % INPUT:
-% a    - quantifies domain density, A/m (scalar)
-% Ms   - saturation magnetization, A/m (scalar)
-% He   - effective magnetizing field, A/m (scalar, vector or matrix)
-% 
+% fun    - function for ODE
+% time   - time for solver: [time_start time_stop] (vector)
+% f0     - value of the solution for time_start, (scalar)
+% N      - fixed number of steps, (scalar)
+%
 % OUTPUT:
-% result - value of numerical differentiation of anhysteretic, isotropic magnetization over effective magnetic field in Jiles-Atherton model, A/m (scalar, vector or matrix, size of He)
+% t_res  - time points for solutions (termined by time_start, time_stop and N) (vector)
+% y_res  - solution of the ODE for in t_res points
 %
 
-if (max(size(a))>1 || max(size(Ms)>1))
-  
-  fprintf('\n*** ERROR in dMah_iso: a or Ms is not a scalar. ***\n');
-  return;
-  
+step=(time(2)-time(1))./N;
+t_res=time(1):step:time(2);
+y_res=t_res.*0;
+
+y_res(1)=f0;
+
+for i=1:N
+   a1=step.*fun(t_res(i),y_res(i));
+   a2=step.*fun(t_res(i)+step./2,y_res(i)+a1./2);
+   a3=step.*fun(t_res(i)+step./2,y_res(i)+a2./2);
+   a4=step.*fun(t_res(i)+step,y_res(i)+a3);
+   y_res(i+1)=y_res(i)+(a1+2.*a2+2.*a3+a4)./6;
 end
-  
-result=(Mah_iso(a,Ms,He+1e-6)-Mah_iso(a,Ms,He-1e-6))./2e-6;   % value of numerical differentiation
 
-end  % of function
 
+end  % end of function 

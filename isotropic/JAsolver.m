@@ -65,33 +65,29 @@ if Hend==Hstart
    return
    end
 
-   
+options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
+  
 switch (SolverType)
 
   case 1
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
   [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
 
   case 2
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
   [H,M] = ode45(dMdH_,[Hstart Hend],M0,options);
   
   case 3
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
   [H,M] = ode23s(dMdH_,[Hstart Hend],M0,options);
   
   case 4
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
-  fprintf('\n rk4() not implemented. \n');
-  [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
+  [H,M] = rk4(dMdH_,[Hstart Hend],M0,50);
 
   otherwise
   
