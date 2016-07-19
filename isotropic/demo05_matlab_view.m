@@ -39,7 +39,7 @@
 clear all
 clc
 
-fprintf('\n\nView of Jiles-Atherton models parameters for three hysteresis loops.');
+fprintf('\n\nView of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo05_octave_view.m \n\n');
 
 
