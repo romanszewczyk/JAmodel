@@ -28,7 +28,8 @@
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
-% [2] 
+% [2] Biedrzycki R., Jackiewicz D., Szewczyk R. "Reliability and Efficiency of Differential Evolution Based Method of Determination 
+%     of Jiles-Atherton Model Parameters for X30Cr13 Corrosion Resisting Martensitic Steel" Journal of Automation, Mobile Robotics and Intelligent Systems 8 (2014) 63-68.
 %
 % USAGE:
 % demo05_matlab_view
