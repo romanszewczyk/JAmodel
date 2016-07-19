@@ -23,7 +23,8 @@
 %
 % DESCRIPTION:
 % Demonstration of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
-% 
+% fminsearch() function used with Nelder and Mead Simplex algorithm (a derivative-free method)
+%
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
