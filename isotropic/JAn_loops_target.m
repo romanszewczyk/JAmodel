@@ -24,8 +24,8 @@ function Ftarget = JAn_loops_target(JApointn,JApoint0,HmeasT,BmeasT,SolverType)
 % 
 %
 % DESCRIPTION:
-% JAsingle_loop splits the given magnetizing field H into monotonous sections and control solving
-% ODE stating Jiles-Atherton model
+% JAn_loop_target_mod calculates target function for optimisation. 
+% Target function is the sum of squared differences between results of modelling and results of measurements.
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
@@ -80,10 +80,10 @@ end           % check if parameters are physical
 
 BsimT = JAn_loops(a,k,c,Ms,alpha,HmeasT,SolverType);
 
-Ftarget=sum(sum((BmeasT-BsimT).^2));
+Ftarget=sum(sum((BmeasT-BsimT).^2));  % calculate target function
 
 if isnan(Ftarget)==1
-    Ftarget=1e30;
+    Ftarget=1e30;                   % check if the target function is NaN. In such a case make it very high
 end 
 
 end
