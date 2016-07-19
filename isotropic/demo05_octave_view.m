@@ -45,7 +45,7 @@ page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
 
 
-fprintf('\n\nView of identified parameters of Jiles-Atherton models parameters for three hysteresis loops.');
+fprintf('\n\nView of identified parameters of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo05_matlab_view.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
