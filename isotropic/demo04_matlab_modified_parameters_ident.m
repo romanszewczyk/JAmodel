@@ -23,15 +23,17 @@
 %
 % DESCRIPTION:
 % Demonstration of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
-% 
+% fminsearch() function used with Nelder and Mead Simplex algorithm (a derivative-free method)
+% Use the modified target function
+%
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
-% [2] 
+% [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
-% demo04_matlab_simple_parametrs_identification
+% demo04_matlab_modified_parametrs_identification
 % 
 
 
@@ -39,7 +41,7 @@ clear all
 clc
 
 fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
-fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo04_octave_simple_parameters_identification.m ');
+fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo04_octave_modified_parameters_identification.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
 
