@@ -28,12 +28,13 @@
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
-% [2] 
+% [2] Biedrzycki R., Jackiewicz D., Szewczyk R. "Reliability and Efficiency of Differential Evolution Based Method of Determination 
+%     of Jiles-Atherton Model Parameters for X30Cr13 Corrosion Resisting Martensitic Steel" Journal of Automation, Mobile Robotics and Intelligent Systems 8 (2014) 63-68.
 %
 % USAGE:
-% demo03_octave_simple_parametrs_identification
+% demo05_octave_view
 % 
-% IMPORTANT: Demo requires "odepkg", "struct" and "optim" packages installed and loaded  
+% IMPORTANT: Demo requires "odepkg" package installed and loaded  
 %
 
 
@@ -45,7 +46,7 @@ page_output_immediately(1);  % print immediately at the screen
 
 
 fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
-fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo03_matlab_simple_parameters_identification.m ');
+fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo05_matlab_view.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
 
