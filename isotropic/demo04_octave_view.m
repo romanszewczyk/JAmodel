@@ -28,12 +28,12 @@
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
-% [2] 
+% [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
-% demo03_octave_simple_parametrs_identification
+% demo04_octave_view
 % 
-% IMPORTANT: Demo requires "odepkg", "struct" and "optim" packages installed and loaded  
+% IMPORTANT: Demo requires "odepkg" package installed and loaded  
 %
 
 
@@ -45,7 +45,7 @@ page_output_immediately(1);  % print immediately at the screen
 
 
 fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
-fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo03_matlab_simple_parameters_identification.m ');
+fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo04_octave_view.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
 
