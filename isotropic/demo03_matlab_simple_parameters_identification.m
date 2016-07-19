@@ -29,7 +29,7 @@
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
-% [2] 
+% [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
 % demo03_matlab_simple_parametrs_identification
