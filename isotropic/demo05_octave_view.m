@@ -22,7 +22,7 @@
 % 
 %
 % DESCRIPTION:
-% Demonstration of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
+% View of identified parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
 % 
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
@@ -45,7 +45,7 @@ page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
 
 
-fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
+fprintf('\n\nView of identified parameters of Jiles-Atherton models parameters for three hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo05_matlab_view.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
