@@ -40,7 +40,7 @@
 clear all
 clc
 
-fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
+fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo04_octave_modified_parameters_identification.m ');
 fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
 
