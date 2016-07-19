@@ -39,7 +39,7 @@ clear all
 clc
 
 
-fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for three hysteresis loops.');
+fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo03_octave_simple_parameters_identification.m \n\n');
 
 % Load measured B(H) characterisitcs of Mn-Zn ferrite
