@@ -30,7 +30,7 @@
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % 
 % USAGE:
-% demo01_matlab_simple_loop
+% demo02_matlab_simple_loop
 % 
 
 
@@ -38,7 +38,7 @@ clear all
 clc
 
 fprintf('\n\nDemonstration of Jiles-Atherton model - three hysteresis loops.');
-fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo01_octave_simple_loop.m \n\n');
+fprintf('\nDemonstration optimized for MATLAB. For OCTAVE please use demo02_octave_simple_loop.m \n\n');
 
 % Calculate Jiles-Atheton model for the case presented in [1]
  
