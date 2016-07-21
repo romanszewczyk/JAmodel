@@ -1,0 +1,1 @@
+Jiles-Atherton model for materials with mixed phases: isotropic and anisotropic
