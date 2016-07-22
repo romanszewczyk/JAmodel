@@ -40,7 +40,7 @@
 
 clear all
 clc
-
+diary demo05
 page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
 
@@ -208,3 +208,5 @@ grid;
 JApoint_optim=JApoint0.*[JApoint_res pi./2];
 
 save -v7 demo05_results.mat JApoint_optim JApoint0 JApoint_res
+
+diary off

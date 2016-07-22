@@ -43,6 +43,7 @@ clc
 
 page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
+diary demo04_diary
 
 fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo04_matlab_modified_parameters_identification.m ');
@@ -209,3 +210,4 @@ grid;
 JApoint_optim=JApoint0.*[JApoint_res 1];
 
 save -v7 demo04_results.mat JApoint_optim JApoint0 JApoint_res
+diary off

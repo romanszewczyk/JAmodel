@@ -22,19 +22,21 @@
 % 
 %
 % DESCRIPTION:
-% Demonstration of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
-% fminsearch() function used with Nelder and Mead Simplex algorithm (a derivative-free method)
+% Visualization the results of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
+% DE_min() function used with Differential Evolution algorithm 
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
+% [3]Biedrzycki R., Jackiewicz D., Szewczyk R. "Reliability and Efficiency of Differential Evolution Based Method of Determination 
+%     of Jiles-Atherton Model Parameters for X30Cr13 Corrosion Resisting Martensitic Steel" Journal of Automation, Mobile Robotics and Intelligent Systems 8 (2014) 63-68.
 %
 % USAGE:
-% demo03_octave_simple_parametrs_identification
+% demo03_octave_view
 % 
-% IMPORTANT: Demo requires "odepkg", "struct" and "optim" packages installed and loaded  
+% IMPORTANT: Demo requires "odepkg" package installed and loaded  
 %
 
 clear all
@@ -44,9 +46,9 @@ page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
 
 
-fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for four hysteresis loops.');
+fprintf('\n\nVisualization the results of identification of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo03_matlab_simple_parameters_identification.m ');
-fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n\n');
+fprintf('\nDemonstration requires odepkg package installed.\n\n');
 
 
 % check if odepkg is installed. Load odepkg if installed, but not loaded.
@@ -82,71 +84,6 @@ end
    fprintf('\n odepkg loaded...ok.\n\n');
 end
 
-% check if struct is installed. Load odepkg if installed, but not loaded.
-
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-struct_inst=0;
-struct_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'struct'))>0
-       struct_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          struct_loaded=1;
-       end
-    end
-end
-
-if struct_inst==0
-   fprintf('\n *** ERROR: struct must be installed to solve ODEs.\n To solve problem try: pkg install -forge struct\n\n');
-   return
-else
-   fprintf('\n struct installed...ok.');
-end
-   
- if struct_loaded==0
-   fprintf('\n WARNING: struct is installed but not loaded.\n');
-   pkg load struct
-   fprintf(' Problem solved: struct is loaded now.\n\n');
-   else
-   fprintf('\n struct loaded...ok.\n\n');
-end
-
-% check if optim is installed. Load odepkg if installed, but not loaded.
-
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-optim_inst=0;
-optim_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'optim'))>0
-       optim_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          optim_loaded=1;
-       end
-    end
-end
-
-if optim_inst==0
-   fprintf('\n *** ERROR: optim must be installed to solve ODEs.\n To solve problem try: pkg install -forge odepkg\n\n');
-   return
-else
-   fprintf('\n optim installed...ok.');
-end
-   
- if optim_loaded==0
-   fprintf('\n WARNING: optim is installed but not loaded.\n');
-   pkg load optim
-   fprintf(' Problem solved: optim is loaded now.\n\n');
-   else
-   fprintf('\n optim loaded...ok.\n\n');
-end
 
 % Load measured B(H) characterisitcs of Mn-Zn ferrite
 
@@ -157,55 +94,36 @@ cd ('..');
  
 fprintf('Load measured B(H) characterisitcs of anisotropic amorphous alloy measured in the easy axis direction... done\n\n');
 
+load('demo05_results.mat');
+
 % prepare starting point for optimisation
 
 mi0=4.*pi.*1e-7;
 
-Ms0=max(max(BmeasT))./mi0;
-a0=10;
-alpha0=1e-7;
-k0=10;
-c0=0.1;        % Initial parameters of Jiles-Atherton model for optimisation
-Kan0=100;
-psi=pi./2;      % WARNING! psi=0 is constant!
-
-JApoint0=[a0 k0 c0 Ms0 alpha0 Kan0 psi];
-
 SolverType=4;
 FixedStep=1;
 
+fprintf('\n\nCalculations...');
+
 func = @(JApointn) JAn_loops_target( [JApointn(1:6) 1], JApoint0, HmeasT, BmeasT, SolverType, FixedStep);
-
-options=optimset('Display','iter','MaxFunEvals',1500);
-
-fprintf('Optimization process started... (first cycle expected in less than 10 min.)\n\n');
-
-tic
-
-JApoint_res=fminsearch(func,[1 1 1 1 1 1],options);
-
-toc
-
-fprintf('\n\nOptimiation process done.\n\n');
 
 Ftarget=func(JApoint_res);
 
 BsimT = JAn_loops(JApoint0(1).*JApoint_res(1), JApoint0(2).*JApoint_res(2), JApoint0(3).*JApoint_res(3), ...
  JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6), pi./2, HmeasT, BmeasT, SolverType, FixedStep );
 
+ fprintf('done.\n');
+ 
 fprintf('Results of optimisation:\n'); 
 fprintf('Target function value: Ftarget=%f\n',Ftarget);
 fprintf('JA model params: a=%f(A/m), k=%f(A/m), c=%f, Ms=%e(A/m), alpha=%e, Kan=%e, psi=0.5pi \n\n',  ...
  JApoint0(1).*JApoint_res(1), JApoint0(2).*JApoint_res(2), JApoint0(3).*JApoint_res(3), ...
  JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6));
  
-fprintf('Optimisation done.\n\n');
+fprintf('Done.\n\n');
 
-plot(HmeasT, BmeasT,'or',HmeasT,BsimT,'k');
+plot(HmeasT, BmeasT,'r',HmeasT,BsimT,'k');
 xlabel('H (A/m)');
 ylabel('B (T)');
+title('Results of parameters identification: red - measurements, black - simulation');
 grid;
-
-JApoint_optim=JApoint0.*[JApoint_res 1];
-
-save -v7 demo03_results.mat JApoint_optim JApoint0 JApoint_res
