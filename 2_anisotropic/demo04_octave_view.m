@@ -32,7 +32,7 @@
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
-% demo03_octave_view
+% demo04_octave_view
 % 
 % IMPORTANT: Demo requires "odepkg" package installed and loaded  
 %
@@ -92,7 +92,7 @@ cd ('..');
  
 fprintf('Load measured B(H) characterisitcs of anisotropic amorphous alloy measured in the easy axis direction... done\n\n');
 
-load('demo03_results.mat');
+load('demo04_results.mat');
 
 % prepare starting point for optimisation
 

@@ -40,7 +40,7 @@
 
 clear all
 clc
-diary demo05
+
 page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
 
@@ -169,8 +169,8 @@ FixedStep=1;
 
 func = @(JApointn) JAn_loops_target( [JApointn pi./2], JApoint0, HmeasT, BmeasT, SolverType, FixedStep);
 
-ctl.XVmin = [2 2 0 max(max(BmeasT))./mi0.*0.8 1e-10 30];
-ctl.XVmax = [25 25 1 max(max(BmeasT))./mi0.*1.6 1e-5 300];
+ctl.XVmin = [0.5 0.5 0 max(max(BmeasT))./mi0.*0.8 1e-10 30];
+ctl.XVmax = [50 50 1 max(max(BmeasT))./mi0.*1.6 1e-5 1000];
 ctl.refresh = 1;
 ctl.maxnfe = 1000;
 ctl.constr = 1;
@@ -209,4 +209,3 @@ JApoint_optim=JApoint0.*[JApoint_res pi./2];
 
 save -v7 demo05_results.mat JApoint_optim JApoint0 JApoint_res
 
-diary off

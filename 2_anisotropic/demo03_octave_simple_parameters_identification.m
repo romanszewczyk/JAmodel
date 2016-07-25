@@ -161,13 +161,13 @@ fprintf('Load measured B(H) characterisitcs of anisotropic amorphous alloy measu
 
 mi0=4.*pi.*1e-7;
 
-Ms0=max(max(BmeasT))./mi0;
-a0=10;
-alpha0=1e-7;
-k0=10;
-c0=0.1;        % Initial parameters of Jiles-Atherton model for optimisation
-Kan0=100;
-psi=pi./2;      % WARNING! psi=0 is constant!
+Ms0=1e6;
+a0=20;
+alpha0=1e-5;
+k0=20;
+c0=0.8;        
+Kan0=200;    % Initial parameters of Jiles-Atherton model for optimisation
+psi=pi./2;   % WARNING! psi=0 is constant!
 
 JApoint0=[a0 k0 c0 Ms0 alpha0 Kan0 psi];
 
@@ -175,6 +175,14 @@ SolverType=4;
 FixedStep=1;
 
 func = @(JApointn) JAn_loops_target( [JApointn(1:6) 1], JApoint0, HmeasT, BmeasT, SolverType, FixedStep);
+
+%fprintf('\nstep 0\n');
+%
+%func([1 1 1 1 1 1])
+%
+%fprintf('\ndone. 0\n');
+%
+%return
 
 options=optimset('Display','iter','MaxFunEvals',1500);
 

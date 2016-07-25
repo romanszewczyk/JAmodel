@@ -43,7 +43,7 @@ clc
 
 page_screen_output(0);
 page_output_immediately(1);  % print immediately at the screen
-diary demo04_diary
+
 
 fprintf('\n\nDemonstration of identification of Jiles-Atherton models parameters for four hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo04_matlab_modified_parameters_identification.m ');
@@ -162,13 +162,13 @@ fprintf('Load measured B(H) characterisitcs of anisotropic amorphous alloy measu
 
 mi0=4.*pi.*1e-7;
 
-Ms0=max(max(BmeasT))./mi0;
-a0=5;
-alpha0=1e-7;
-k0=5;
-c0=0.1;        % Initial parameters of Jiles-Atherton model for optimisation
-Kan0=200;
-psi=pi./2;      % WARNING! psi=0 is constant!
+Ms0=1e6;
+a0=20;
+alpha0=1e-5;
+k0=20;
+c0=0.8;        
+Kan0=200;    % Initial parameters of Jiles-Atherton model for optimisation
+psi=pi./2;   % WARNING! psi=0 is constant!
 
 JApoint0=[a0 k0 c0 Ms0 alpha0 Kan0 psi];
 
@@ -210,4 +210,3 @@ grid;
 JApoint_optim=JApoint0.*[JApoint_res 1];
 
 save -v7 demo04_results.mat JApoint_optim JApoint0 JApoint_res
-diary off

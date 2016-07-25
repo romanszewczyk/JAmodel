@@ -90,19 +90,19 @@ end
 % prepare variables for modelling
 
 Ms=1e6;
-a=50;
+a=20;
 alpha=1e-5;
-k=30;
+k=20;
 c=0.8;        
-Kan=1e3;
-psi=0;   % Parameters of Jiles-Atherton model specified in [1]
+Kan=200;
+psi=0;   % Parameters of Jiles-Atherton model 
 
 fprintf('Calculation for parameters: \na=%2.2f(A/m), k=%2.2f(A/m), c=%1.2f, Ms=%1.2e(A/m), alpha=%1.2e Kan=%1.2eJ/m3 \n\n',a,k,c,Ms,alpha,Kan);
 
 H=[0:0.01:1 1:-0.01:-1 -1:0.01:1]'; % magnetizing field H - column vector
-H=[H.*100 H.*200 H.*500];
+H=[H.*100 H.*300 H.*800];
 
-SolverType=1; % ode23() solver
+SolverType=4; % ode23() solver
 FixedStep=1;
 
 fprintf('Calculations started. Expected time of calculations: below 3 minutes.\n');

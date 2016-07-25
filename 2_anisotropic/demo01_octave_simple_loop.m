@@ -91,40 +91,42 @@ end
 % prepare variables for modelling
 
 Ms=1e6;
-a=50;
+a=20;
 alpha=1e-5;
-k=50;
+k=20;
 c=0.8;        
-Kan=1e3;
-psi=0;   % Parameters of Jiles-Atherton model specified in [1]
+Kan=200;
+psi=0;   % Parameters of Jiles-Atherton model 
 
 fprintf('Calculation for parameters: \na=%2.2f(A/m), k=%2.2f(A/m), c=%1.2f, Ms=%1.2e(A/m), alpha=%1.2e Kan=%1.2eJ/m3 \n\n',a,k,c,Ms,alpha,Kan);
 
-H=[0:50:500 500:-5:-500 -500:5:500]'; % magnetizing field H - column vector
+H=[0 800:-80:-800 -800:80:800]'; % magnetizing field H - column vector
 
 M0=0;         % sample demagnetized at the beginning
-SolverType=1; % ode23() solver
+SolverType=4; % ode23() solver
 FixedStep=1;
 
 
 fprintf('Calculations started. Expected time of calculations: below 1 minute.\n');
 
-fprintf('\nCalculations for parallel anisotropy...');
-psi=0;
-[Hmodel_par,Bmodel_par] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep);
-fprintf('done (red line).');
+%fprintf('\nCalculations for parallel anisotropy...');
+%psi=0;
+%[Hmodel_par,Bmodel_par] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep);
+%fprintf('done (red line).');
 
 fprintf('\nCalculations for perpendicular anisotropy...');
 psi=pi./2;
 [Hmodel_per,Bmodel_per] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep);
 fprintf('done (blue line).');
 
-fprintf('\nCalculations for isotropic material...');
-Kan=0;
-[Hmodel_neutral,Bmodel_neutral] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep);
-fprintf('done (black line).\n\n');
+%fprintf('\nCalculations for isotropic material...');
+%Kan=0;
+%[Hmodel_neutral,Bmodel_neutral] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep);
+%fprintf('done (black line).\n\n');
 
-plot(Hmodel_par, Bmodel_par,'r',Hmodel_per, Bmodel_per,'b',Hmodel_neutral, Bmodel_neutral,'k');
+%plot(Hmodel_par, Bmodel_par,'r',Hmodel_per, Bmodel_per,'b',Hmodel_neutral, Bmodel_neutral,'k');
+plot(Hmodel_per, Bmodel_per,'b');
+
 xlabel('H (A/m)');
 ylabel('B (T)');
 grid;
