@@ -1,10 +1,10 @@
 clear all
 
-load('H_M130_27s.mat');
-load('B_M130_27s.mat');
+load('H_amorf.mat');
+load('B_amorf.mat');
 
 plot(HmeasT,BmeasT);
-title('Magnetic hysteresis loops B(H) of M130-27s electric steel measured in the easy axis direction');
+title('Magnetic hysteresis loops B(H) of M-680 amorphous alloy core with strong perpendicular anisotropy');
 xlabel('H (A/m)');
 ylabel('B (T)');
 grid;
