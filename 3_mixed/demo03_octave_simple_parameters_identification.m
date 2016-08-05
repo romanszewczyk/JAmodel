@@ -173,7 +173,7 @@ t0=0.8;
 
 JApoint0=[a0 k0 c0 Ms0 alpha0 Kan0 psi t0];
 
-SolverType=1;
+SolverType=4;
 FixedStep=1;
 
 func = @(JApointn) JAn_loops_target( [JApointn(1:7) 0], JApoint0, HmeasT, BmeasT, SolverType, FixedStep);

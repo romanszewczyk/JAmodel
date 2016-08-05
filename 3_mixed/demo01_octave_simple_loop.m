@@ -104,7 +104,7 @@ fprintf('Calculation for parameters: \na=%2.2f(A/m), k=%2.2f(A/m), c=%1.2f, Ms=%
 H=[0:50:500 500:-5:-500 -500:5:500]'; % magnetizing field H - column vector
 
 M0=0;         % sample demagnetized at the beginning
-SolverType=1; % ode23() solver
+SolverType=4; % ode23() solver
 FixedStep=1;
 
 

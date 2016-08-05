@@ -164,16 +164,16 @@ mi0=4.*pi.*1e-7;
 
 JApoint0=[1 1 1 1 1 1 1 1];
 
-SolverType=1;       % solver ode23()
+SolverType=4;       % solver ode23()
 FixedStep=1;
 
 func = @(JApointn) JAn_loops_target( [JApointn 0], JApoint0, HmeasT, BmeasT, SolverType, FixedStep);
 
-ctl.XVmin = [2 2 0 max(max(BmeasT))./mi0.*0.8 1e-10 30 0];
-ctl.XVmax = [25 25 1 max(max(BmeasT))./mi0.*1.6 1e-5 300 1];
+ctl.XVmin = [2 2 0 max(max(BmeasT))./mi0.*0.8 1e-10 10 0];
+ctl.XVmax = [100 100 1 max(max(BmeasT))./mi0.*1.6 1e-3 1000 1];
 ctl.refresh = 1;
 ctl.maxnfe = 1000;
-ctl.constr = 1;
+ctl.constr = 0;
 
 % Range of parameters of Jiles-Atherton model for optimisation
 
@@ -196,7 +196,7 @@ fprintf('Results of optimisation:\n');
 fprintf('Target function value: Ftarget=%f\n',Ftarget);
 fprintf('JA model params: a=%f(A/m), k=%f(A/m), c=%f, Ms=%e(A/m), alpha=%e, Kan=%e, psi=0, t=%f \n\n',  ...
  JApoint0(1).*JApoint_res(1), JApoint0(2).*JApoint_res(2), JApoint0(3).*JApoint_res(3), ...
- JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6),JApoint0(7).*JApoint_res(t) );
+ JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6),JApoint0(7).*JApoint_res(7) );
  
 fprintf('Optimisation done.\n\n');
 
@@ -209,3 +209,4 @@ JApoint_optim=JApoint0.*[JApoint_res 0];
 
 save -v7 demo05_results.mat JApoint_optim JApoint0 JApoint_res
 
+OC
