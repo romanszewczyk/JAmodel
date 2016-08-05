@@ -23,7 +23,7 @@
 %
 % DESCRIPTION:
 % Demonstration of identification of parameters of Jiles-Atherton model of four hysteresis loops with increase of magnetizing field amplitude
-% Optimisation method - differential evolution DE
+% Optimisation method - cascade: differential evolution DE first, Powell next
 % 
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
@@ -33,7 +33,7 @@
 %     of Jiles-Atherton Model Parameters for X30Cr13 Corrosion Resisting Martensitic Steel" Journal of Automation, Mobile Robotics and Intelligent Systems 8 (2014) 63-68.
 %
 % USAGE:
-% demo05_octave_differential_evolution
+% demo07_octave_differential_evolution
 % 
 % IMPORTANT: Demo requires "odepkg", "struct" and "optim" packages installed and loaded  
 %
