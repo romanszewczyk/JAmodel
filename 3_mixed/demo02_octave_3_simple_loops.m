@@ -51,40 +51,8 @@ fprintf('\n\nDemonstration of Jiles-Atherton model - three hysteresis loops.');
 fprintf('\nDemonstration optimized for OCTAVE. For MATLAB please use demo02_matlab_3_simple_loops.m ');
 fprintf('\nDemonstration requires odepkg installed.\n\n');
 
-
 % check if odepkg is installed. Load odepkg if installed, but not loaded.
-
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-odepkg_inst=0;
-odepkg_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'odepkg'))>0
-       odepkg_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          odepkg_loaded=1;
-       end
-    end
-end
-
-if odepkg_inst==0
-   fprintf('\n *** ERROR: odepkg must be installed to solve ODEs.\n To solve problem try: pkg install -forge odepkg\n\n');
-   return
-else
-   fprintf('\n odepkg installed...ok.');
-end
-   
- if odepkg_loaded==0
-   fprintf('\n WARNING: odepkg is installed but not loaded.\n');
-   pkg load odepkg
-   fprintf(' Problem solved: odepkg is loaded now.\n\n');
-   else
-   fprintf('\n odepkg loaded...ok.\n\n');
-end
-
+ChkPkg('odepkg');
 
 % Calculate Jiles-Atheton model for the case presented in [1]
  

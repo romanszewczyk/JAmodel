@@ -51,105 +51,15 @@ fprintf('\nDemonstration requires odepkg, struct and optim packages installed.\n
 
 
 % check if odepkg is installed. Load odepkg if installed, but not loaded.
-
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-odepkg_inst=0;
-odepkg_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'odepkg'))>0
-       odepkg_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          odepkg_loaded=1;
-       end
-    end
-end
-
-if odepkg_inst==0
-   fprintf('\n *** ERROR: odepkg must be installed to solve ODEs.\n To solve problem try: pkg install -forge odepkg\n\n');
-   return
-else
-   fprintf('\n odepkg installed...ok.');
-end
-   
- if odepkg_loaded==0
-   fprintf('\n WARNING: odepkg is installed but not loaded.\n');
-   pkg load odepkg
-   fprintf(' Problem solved: odepkg is loaded now.\n\n');
-   else
-   fprintf('\n odepkg loaded...ok.\n\n');
-end
+ChkPkg('odepkg');
 
 % check if struct is installed. Load odepkg if installed, but not loaded.
-
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-struct_inst=0;
-struct_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'struct'))>0
-       struct_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          struct_loaded=1;
-       end
-    end
-end
-
-if struct_inst==0
-   fprintf('\n *** ERROR: struct must be installed to solve ODEs.\n To solve problem try: pkg install -forge struct\n\n');
-   return
-else
-   fprintf('\n struct installed...ok.');
-end
-   
- if struct_loaded==0
-   fprintf('\n WARNING: struct is installed but not loaded.\n');
-   pkg load struct
-   fprintf(' Problem solved: struct is loaded now.\n\n');
-   else
-   fprintf('\n struct loaded...ok.\n\n');
-end
+ChkPkg('struct');
 
 % check if optim is installed. Load odepkg if installed, but not loaded.
+ChkPkg('optim');
 
-inst_pkg = pkg ("list");
-
-[i,j]=size(inst_pkg);
-
-optim_inst=0;
-optim_loaded=0;
-
-for i=1:j
-    if size(findstr(inst_pkg{1,i}.name,'optim'))>0
-       optim_inst=1;
-       if inst_pkg{1,i}.loaded==1;
-          optim_loaded=1;
-       end
-    end
-end
-
-if optim_inst==0
-   fprintf('\n *** ERROR: optim must be installed to solve ODEs.\n To solve problem try: pkg install -forge odepkg\n\n');
-   return
-else
-   fprintf('\n optim installed...ok.');
-end
-   
- if optim_loaded==0
-   fprintf('\n WARNING: optim is installed but not loaded.\n');
-   pkg load optim
-   fprintf(' Problem solved: optim is loaded now.\n\n');
-   else
-   fprintf('\n optim loaded...ok.\n\n');
-end
-
-% Load measured B(H) characterisitcs of Mn-Zn ferrite
+% Load measured B(H) characterisitcs of M130_27s electrical steel
 
 cd ('Characterisitcs_mixed_mat');
 load('H_M130_27s.mat');
