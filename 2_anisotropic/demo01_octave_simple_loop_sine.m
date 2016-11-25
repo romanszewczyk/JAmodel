@@ -24,6 +24,7 @@
 % DESCRIPTION:
 % Demonstration of solving simple case of Jiles-Atherton model of hysteresis loop
 % of anisotropic magnetic material
+% with increasing value of amplitude of H as the sine wave
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
@@ -63,12 +64,14 @@ a=20;
 alpha=1e-5;
 k=20;
 c=0.8;        
-Kan=200;
+Kan=100;
 psi=0;   % Parameters of Jiles-Atherton model 
 
 fprintf('Calculation for parameters: \na=%2.2f(A/m), k=%2.2f(A/m), c=%1.2f, Ms=%1.2e(A/m), alpha=%1.2e Kan=%1.2eJ/m3 \n\n',a,k,c,Ms,alpha,Kan);
 
-H=[0:10:800 800:-10:-800 -800:10:800]'; % magnetizing field H - column vector
+t=0:0.0001:1;
+H=t.*1000.*sin(2.*pi.*15.*t);
+H=H';         % magnetizing field H - column vector % magnetizing field H - column vector
 
 M0=0;         % sample demagnetized at the beginning
 SolverType=4; % ode23() solver

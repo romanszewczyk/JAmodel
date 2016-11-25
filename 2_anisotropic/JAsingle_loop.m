@@ -1,4 +1,4 @@
-function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep)
+function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0_,SolverType,FixedStep)
 %
 % The MIT License (MIT)
 %
@@ -26,16 +26,14 @@ function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedSte
 % DESCRIPTION:
 % JAsingle_loop splits the given magnetizing field H into monotonous sections and control solving
 % ODE stating Jiles-Atherton model
-% Script for anisotropic magnetic materials
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
 % [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
-% 
 % USAGE:
-% [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedStep)
+% [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,SolverType)
 % 
 % IMPORTANT: H must be a COLUMN vector 
 %
@@ -45,8 +43,6 @@ function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedSte
 % c    - magnetization reversibility, 0..1 (scalar)
 % Ms   - saturation magnetization, A/m (scalar)
 % alpha - Bloch coefficient (scalar)
-% Kan  - average magnetic anisotropy density, K/m3 (scalar)
-% psi  - the angle between a direction of the easy axis of magnetic anisotropy and the direction of the magnetizing field, rad (scalar)
 % H    - magnetizing field, A/m (column vector)
 % M0   - initial value of magnetization for ODE, A/m (scalar)
 % SolverType - select the solver for ODE
@@ -54,12 +50,12 @@ function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,Kan,psi,H,M0,SolverType,FixedSte
 %               2 - ode45()
 %               3 - ode23s()
 %               4 - rk4() 
-% FixedStep - select the solver for integration:
-%               1: quadtrapz(), 0: quadgk()
 %
 % OUTPUT:
 % Hw - set of output values of magnetizing field H, A/m (vector)
 % Bw - set of output values of flux density B, T (vector)
+
+mi0=4.*pi.*1e-7;
 
 if size(H,2)>1
    fprintf('\n\n***ERROR in JAsingle_loop: H must be the column vector\n\n');
@@ -68,79 +64,98 @@ if size(H,2)>1
    return
 end
 
-mi0=4.*pi.*1e-7;
+if numel(H)<2
+   fprintf('\n\n***ERROR in JAsingle_loop: H must be at least two elements vector\n\n');
+   Bw=0;
+   Hw=0;
+   return
+end
 
-Hw=H(1);
-Mw=M0;
+if numel(H)==2
+   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),M0,SolverType,FixedStep);
+   Hi(isnan(Hi))=1;
+   Mi(isnan(Mi))=1;
+   Hw=H;
+   Mw=[M0 Mi(end)];
+   Bw=Mw.*mi0+Hw.*mi0;
+   return
+   end
 
-Mini=M0;
+
+M0=M0_;
 
 ip=1;
 ik=2;
 
-if size(H,1)==2
-   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),M0,SolverType,FixedStep);
-   Hi(isnan(Hi))=1;
-   Mi(isnan(Mi))=1;
-   Hw=Hi;
-   Mw=Mi;
-end
+Hw=zeros(size(H));
+Hw(1)=H(1);
 
-while ik<size(H,1)
-
-direction=sign(H(ik)-H(ip));
-
-if direction==1
-    while (H(ik+1)>H(ik)) && (ik+1<size(H,1))
-        ik=ik+1;
-    end
-    
-    if H(ik+1)>H(ik)
-        ik=ik+1;
-    end
-end
-
-if direction==-1
-    while (H(ik+1)<H(ik)) && (ik+1<size(H,1)) 
-        ik=ik+1;
-    end;
-    
-    if H(ik+1)<H(ik)
-        ik=ik+1;
-    end
-end
-
-   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),Mini,SolverType,FixedStep);
-   Hi(isnan(Hi))=1;
-   Mi(isnan(Mi))=1;    
-   if numel(Hi)>2
-        Mw=[Mw; interp1(Hi,Mi,H(ip+1:ik),'cubic')];
-    else
-        Mw=[Mw; Mi(1)];
-    end
-    
-    Hw=[Hw; H(ip+1:ik)];
-    Mini=Mw(size(Mw,1));
+Mw=zeros(size(H));
+Mw(1)=M0;
 
 
-ip=ik;
-ik=ik+1;
+while ik<numel(H)
 
-if ((ik==size(H,1)) && (H(ip)~=H(ik)))
-    [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),Mini,SolverType,FixedStep);
-    Hi(isnan(Hi))=1;
-    Mi(isnan(Mi))=1;
-    if numel(Hi)>2
-        Mw=[Mw; interp1(Hi,Mi,H(ip+1:ik),'cubic')];
+   if H(ik)>H(ip)
+      if H(ik+1)>=H(ik)
+         ik=ik+1;
       else
-        Mw=[Mw; Mi(1)];
+         [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),M0,SolverType,FixedStep);
+         Hi(isnan(Hi))=1;
+         Mi(isnan(Mi))=1;
+         if numel(Hi)>2
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+         else
+            Mw(ip+1)=Mi(end);
+         end
+         Hw(ip+1:ik)=H(ip+1:ik);
+         M0=Mi(end);
+
+         ip=ik;
+         ik=ip+1;
       end
-    Hw=[Hw; H(ip+1:ik)];
-    Mini=Mw(size(Mw,1));
-end
+   end
+
+   if H(ik)<H(ip)
+      if H(ik+1)<=H(ik)
+         ik=ik+1;
+      else
+         [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),M0,SolverType,FixedStep);
+         Hi(isnan(Hi))=1;
+         Mi(isnan(Mi))=1;
+         if numel(Hi)>2
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+         else
+            Mw(ip+1)=Mi(end);
+         end
+         Hw(ip+1:ik)=H(ip+1:ik);
+         M0=Mi(end);
+         
+         ip=ik;
+         ik=ip+1;
+      end
+   end
+   
+   if H(ik)==H(ip)
+      ik=ik+1;
+   end
 
 end
+
+[Hi, Mi]=JAsolver(a,k,c,Ms,alpha,Kan,psi,H(ip),H(ik),M0,SolverType,FixedStep);
+Hi(isnan(Hi))=1;
+Mi(isnan(Mi))=1;
+if numel(Hi)>2
+   Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+else
+   Mw(ip+1)=Mi(end);
+end
+
+Hw(ip+1:ik)=H(ip+1:ik);
+M0=Mi(end);
+
 
 Bw=Mw.*mi0+Hw.*mi0;
 
 end
+
