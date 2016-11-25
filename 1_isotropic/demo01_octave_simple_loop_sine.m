@@ -23,7 +23,7 @@
 %
 % DESCRIPTION:
 % Demonstration of solving simple case of Jiles-Atherton model of hysteresis loop
-% with increasing value of amplitude of sine wave
+% with increasing value of amplitude of H as the sine wave
 %
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
