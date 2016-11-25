@@ -56,6 +56,7 @@ function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,H,M0_,SolverType)
 % Bw - set of output values of flux density B, T (vector)
 
 mi0=4.*pi.*1e-7;
+M0=M0_;
 
 if size(H,2)>1
    fprintf('\n\n***ERROR in JAsingle_loop: H must be the column vector\n\n');
@@ -80,9 +81,6 @@ if numel(H)==2
    Bw=Mw.*mi0+Hw.*mi0;
    return
    end
-
-
-M0=M0_;
 
 ip=1;
 ik=2;
