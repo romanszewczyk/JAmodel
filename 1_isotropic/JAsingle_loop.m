@@ -1,4 +1,4 @@
-function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,H,M0,SolverType)
+function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,H,M0_,SolverType)
 %
 % The MIT License (MIT)
 %
@@ -55,6 +55,8 @@ function [Hw,Bw] = JAsingle_loop(a,k,c,Ms,alpha,H,M0,SolverType)
 % Hw - set of output values of magnetizing field H, A/m (vector)
 % Bw - set of output values of flux density B, T (vector)
 
+mi0=4.*pi.*1e-7;
+
 if size(H,2)>1
    fprintf('\n\n***ERROR in JAsingle_loop: H must be the column vector\n\n');
    Bw=0;
@@ -62,79 +64,98 @@ if size(H,2)>1
    return
 end
 
-mi0=4.*pi.*1e-7;
+if numel(H)<2
+   fprintf('\n\n***ERROR in JAsingle_loop: H must be at least two elements vector\n\n');
+   Bw=0;
+   Hw=0;
+   return
+end
 
-Hw=H(1);
-Mw=M0;
+if numel(H)==2
+   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),M0,SolverType);
+   Hi(isnan(Hi))=1;
+   Mi(isnan(Mi))=1;
+   Hw=H;
+   Mw=[M0 Mi(end)];
+   Bw=Mw.*mi0+Hw.*mi0;
+   return
+   end
 
-Mini=M0;
+
+M0=M0_;
 
 ip=1;
 ik=2;
 
-if size(H,1)==2
-   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),M0,SolverType);
-   Hi(isnan(Hi))=1;
-   Mi(isnan(Mi))=1;
-   Hw=Hi;
-   Mw=Mi;
-end
+Hw=zeros(size(H));
+Hw(1)=H(1);
 
-while ik<size(H,1)
-
-direction=sign(H(ik)-H(ip));
-
-if direction==1
-    while (H(ik+1)>H(ik)) && (ik+1<size(H,1))
-        ik=ik+1;
-    end
-    
-    if H(ik+1)>H(ik)
-        ik=ik+1;
-    end
-end
-
-if direction==-1
-    while (H(ik+1)<H(ik)) && (ik+1<size(H,1)) 
-        ik=ik+1;
-    end;
-    
-    if H(ik+1)<H(ik)
-        ik=ik+1;
-    end
-end
-
-   [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),Mini,SolverType);
-   Hi(isnan(Hi))=1;
-   Mi(isnan(Mi))=1;    
-   if numel(Hi)>2
-        Mw=[Mw; interp1(Hi,Mi,H(ip+1:ik),'cubic')];
-    else
-        Mw=[Mw; Mi(1)];
-    end
-    
-    Hw=[Hw; H(ip+1:ik)];
-    Mini=Mw(size(Mw,1));
+Mw=zeros(size(H));
+Mw(1)=M0;
 
 
-ip=ik;
-ik=ik+1;
+while ik<numel(H)
 
-if ((ik==size(H,1)) && (H(ip)~=H(ik)))
-    [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),Mini,SolverType);
-    Hi(isnan(Hi))=1;
-    Mi(isnan(Mi))=1;
-    if numel(Hi)>2
-        Mw=[Mw; interp1(Hi,Mi,H(ip+1:ik),'cubic')];
+   if H(ik)>H(ip)
+      if H(ik+1)>=H(ik)
+         ik=ik+1;
       else
-        Mw=[Mw; Mi(1)];
+         [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),M0,SolverType);
+         Hi(isnan(Hi))=1;
+         Mi(isnan(Mi))=1;
+         if numel(Hi)>2
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+         else
+            Mw(ip+1)=Mi(end);
+         end
+         Hw(ip+1:ik)=H(ip+1:ik);
+         M0=Mi(end);
+
+         ip=ik;
+         ik=ip+1;
       end
-    Hw=[Hw; H(ip+1:ik)];
-    Mini=Mw(size(Mw,1));
-end
+   end
+
+   if H(ik)<H(ip)
+      if H(ik+1)<=H(ik)
+         ik=ik+1;
+      else
+         [Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),M0,SolverType);
+         Hi(isnan(Hi))=1;
+         Mi(isnan(Mi))=1;
+         if numel(Hi)>2
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+         else
+            Mw(ip+1)=Mi(end);
+         end
+         Hw(ip+1:ik)=H(ip+1:ik);
+         M0=Mi(end);
+         
+         ip=ik;
+         ik=ip+1;
+      end
+   end
+   
+   if H(ik)==H(ip)
+      ik=ik+1;
+   end
 
 end
+
+[Hi, Mi]=JAsolver(a,k,c,Ms,alpha,H(ip),H(ik),M0,SolverType);
+Hi(isnan(Hi))=1;
+Mi(isnan(Mi))=1;
+if numel(Hi)>2
+   Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+else
+   Mw(ip+1)=Mi(end);
+end
+
+Hw(ip+1:ik)=H(ip+1:ik);
+M0=Mi(end);
+
 
 Bw=Mw.*mi0+Hw.*mi0;
 
 end
+
