@@ -1,0 +1,4 @@
+Scripts for the paper:
+
+Open source implementation of different variants of Jiles-Atherton model of magnetic hysteresis loops
+R. SZEWCZYK, P. CHENG
