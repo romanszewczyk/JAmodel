@@ -1,0 +1,1 @@
+MnZn ferrite magnetic hysteresis loops B(H) for different values of the amplitude of magnetizing field.
