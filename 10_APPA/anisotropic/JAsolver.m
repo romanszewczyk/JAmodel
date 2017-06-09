@@ -57,6 +57,10 @@ function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,ModelType,SolverType,Iso
 % FixedStep - select the solver for integration:
 %               1: quadtrapz(), 0: quadgk()
 %
+% AnisoType - select the type of anisotropy model
+%               0: uniaxial anisotropy
+%               1: GO anisotropy
+%
 % OUTPUT:
 % H - set of output values of magnetizing field H, A/m (vector)
 % M - set of output values of magnetization M, A/m (vector)
