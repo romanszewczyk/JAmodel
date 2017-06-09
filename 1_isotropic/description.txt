@@ -1,1 +1,6 @@
 Implementation of Jiles-Atherton model for isotropic material.
+
+Start: 
+demo01_octave_simple_loop.m
+or
+demo01_matlab_simple_loop.m
