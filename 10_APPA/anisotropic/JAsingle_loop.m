@@ -60,6 +60,10 @@ function [Hw,Bw] = JAsingle_loop(Hmeas,a,k,c,Ms,alpha,ModelType,SolverType,IsoAn
 %             0 - isotropic model - DEFAULT
 %             1 - anisotropic model
 %
+% AnisoType - select the type of anisotropy model
+%               0: uniaxial anisotropy
+%               1: GO anisotropy
+%
 % Kan  - average magnetic anisotropy density, K/m3 (scalar)
 % psi  - the angle between a direction of the easy axis of magnetic anisotropy and the direction of the magnetizing field, rad (scalar)
 %
