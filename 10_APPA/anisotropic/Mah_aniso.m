@@ -55,6 +55,10 @@ function result = Mah_aniso(a, Ms, Kan, psi, HeT, AnisoType,IntType)
 %               0: quadtrapz() - DEFAULT
 %               1: quadgk()
 %
+% AnisoType - select the type of anisotropy model
+%               0: uniaxial anisotropy
+%               1: GO anisotropy
+%
 % OUTPUT:
 % result - value of anhysteretic, anisotropic magnetization in Jiles-Atherton model, A/m (scalar, vector or matrix, size of He)
 %
