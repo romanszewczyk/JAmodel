@@ -2,7 +2,7 @@ function result=ChkPkg(PkgName)
 
 % The MIT License (MIT)
 %
-% Copyright (c) 2016 Roman Szewczyk
+% Copyright (c) 2016, 2017 Roman Szewczyk
 %
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,20 @@ function result=ChkPkg(PkgName)
 % USAGE:
 % ChkPkg('odepkg');
 % 
+
+t=ver;
+
+if strcmp(t(1).Name,'Octave')==0
+   fprintf('\n\n *** ChkPkg only valid for Octave ***\n\n');
+   result=1;
+   return;
+   end
+
+if (strcmp(PkgName,'odepkg')==1) && (str2num(t(1).Version(1))+0.1.*str2num(t(1).Version(3)) >= 4.2)
+   fprintf('\n\n *** odepkg not necessary for Octave 4.2 and higher ***\n\n');
+   result=1;
+   return;
+   end
 
 inst_pkg = pkg ('list');
 
