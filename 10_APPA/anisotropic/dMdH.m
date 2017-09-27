@@ -181,7 +181,7 @@ if ModelType==2    % Venkataraman
 
    dM3 = delta.*k-alpha.*dM1-delta.*k.*c.*alpha.*dMah_aniso(a,Ms,Kan,psi,H+alpha.*M,AnisoType,IntType);  % third part of equation
    
-   dM3(abs(dM3)>1e-70)=1e-70;
+   dM3(abs(dM3)<1e-70)=1e-70;
    result=dM2./dM3;                        % calculate the equation [1]
   
 
