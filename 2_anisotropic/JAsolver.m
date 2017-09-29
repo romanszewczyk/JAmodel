@@ -1,4 +1,4 @@
-function [H,M] = JAsolver(a,k,c,Ms,alpha,Kan,psi,Hstart,Hend,M0,SolverType,FixedStep)
+function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,ModelType,SolverType,IsoAniso,AnisoType,Kan,psi,IntType)
 % The MIT License (MIT)
 %
 % Copyright (c) 2016 Roman Szewczyk
@@ -50,12 +50,17 @@ function [H,M] = JAsolver(a,k,c,Ms,alpha,Kan,psi,Hstart,Hend,M0,SolverType,Fixed
 % Hend - maximal value of magnetization, A/m (scalar)
 % M0   - initial value of magnetization for ODE, A/m (scalar)
 % SolverType - select the solver for ODE
-%               1 - ode23()
-%               2 - ode45()
-%               3 - ode23s()
-%               4 - rk4() 
+%               0 - ode23()
+%               1 - ode45()
+%               2 - ode23s()
+%               3 - rk4()
+%               other - ode23() 
 % FixedStep - select the solver for integration:
 %               1: quadtrapz(), 0: quadgk()
+%
+% AnisoType - select the type of anisotropy model
+%               0: uniaxial anisotropy
+%               1: GO anisotropy
 %
 % OUTPUT:
 % H - set of output values of magnetizing field H, A/m (vector)
@@ -70,33 +75,53 @@ if Hend==Hstart
 
 options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   
+dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend,ModelType,IsoAniso,AnisoType,Kan,psi,IntType);
+
 switch (SolverType)
 
-  case 1
-  
-  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
+  case 0
+  try
   [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
+  catch
+  H=[Hstart Hend];
+  M=[0 0];
+  fprintf('x');
+  end_try_catch
 
-  case 2
-  
-  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
+
+  case 1
+  try
   [H,M] = ode45(dMdH_,[Hstart Hend],M0,options);
+  catch
+  H=[Hstart Hend];
+  M=[0 0];
+  fprintf('x');
+  end_try_catch
+  
+  
+  case 2
+  try
+  [H,M] = ode23s(dMdH_,[Hstart Hend],M0,options);
+  catch
+  H=[Hstart Hend];
+  M=[0 0];
+  fprintf('x');
+  end_try_catch
+  
   
   case 3
-  
-  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
-  [H,M] = ode23s(dMdH_,[Hstart Hend],M0,options);
-  
-  case 4
-  
-  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
+  try
   [H,M] = rk4(dMdH_,[Hstart Hend],M0,50);
 
   otherwise
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
-  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
+  try
   [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
+  catch
+  H=[Hstart Hend];
+  M=[0 0];
+  fprintf('x');
+  end_try_catch
 
 endswitch
   
