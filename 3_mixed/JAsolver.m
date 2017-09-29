@@ -112,7 +112,12 @@ switch (SolverType)
   case 3
   try
   [H,M] = rk4(dMdH_,[Hstart Hend],M0,50);
-
+  catch
+  H=[Hstart Hend];
+  M=[0 0];
+  fprintf('x');
+  end_try_catch
+  
   otherwise
   
   try
