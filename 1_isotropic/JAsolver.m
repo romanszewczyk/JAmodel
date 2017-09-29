@@ -1,4 +1,5 @@
-function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,ModelType,SolverType,IsoAniso,AnisoType,Kan,psi,IntType)
+function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,SolverType)
+%
 % The MIT License (MIT)
 %
 % Copyright (c) 2016 Roman Szewczyk
@@ -29,7 +30,7 @@ function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,ModelType,SolverType,Iso
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
-% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis‚Äù Journal of Magnetism and Magnetic Materials 61 (1986) 48.
+% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresisî Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
@@ -43,24 +44,15 @@ function [H,M] = JAsolver(a,k,c,Ms,alpha,Hstart,Hend,M0,ModelType,SolverType,Iso
 % c    - magnetization reversibility, 0..1 (scalar)
 % Ms   - saturation magnetization, A/m (scalar)
 % alpha - Bloch coefficient (scalar)
-% Kan  - average magnetic anisotropy density, K/m3 (scalar)
-% psi  - the angle between a direction of the easy axis of magnetic anisotropy and the direction of the magnetizing field, rad (scalar)
 % H    - magnetizing field, A/m (scalar or column vector)
 % Hstart - minimal value of magnetization, A/m (scalar)
 % Hend - maximal value of magnetization, A/m (scalar)
 % M0   - initial value of magnetization for ODE, A/m (scalar)
 % SolverType - select the solver for ODE
-%               0 - ode23()
-%               1 - ode45()
-%               2 - ode23s()
-%               3 - rk4()
-%               other - ode23() 
-% FixedStep - select the solver for integration:
-%               1: quadtrapz(), 0: quadgk()
-%
-% AnisoType - select the type of anisotropy model
-%               0: uniaxial anisotropy
-%               1: GO anisotropy
+%               1 - ode23()
+%               2 - ode45()
+%               3 - ode23s()
+%               4 - rk4() 
 %
 % OUTPUT:
 % H - set of output values of magnetizing field H, A/m (vector)
@@ -75,58 +67,33 @@ if Hend==Hstart
 
 options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
   
-dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend,ModelType,IsoAniso,AnisoType,Kan,psi,IntType);
-
 switch (SolverType)
 
-  case 0
-  try
-  [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
-  catch
-  H=[Hstart Hend];
-  M=[0 0];
-  fprintf('x');
-  end_try_catch
-
-
   case 1
-  try
-  [H,M] = ode45(dMdH_,[Hstart Hend],M0,options);
-  catch
-  H=[Hstart Hend];
-  M=[0 0];
-  fprintf('x');
-  end_try_catch
   
-  
+  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
+  [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
+
   case 2
-  try
-  [H,M] = ode23s(dMdH_,[Hstart Hend],M0,options);
-  catch
-  H=[Hstart Hend];
-  M=[0 0];
-  fprintf('x');
-  end_try_catch
   
+  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
+  [H,M] = ode45(dMdH_,[Hstart Hend],M0,options);
   
   case 3
-  try
-  [H,M] = rk4(dMdH_,[Hstart Hend],M0,50);
-  catch
-  H=[Hstart Hend];
-  M=[0 0];
-  fprintf('x');
-  end_try_catch
   
+  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
+  [H,M] = ode23s(dMdH_,[Hstart Hend],M0,options);
+  
+  case 4
+  
+  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
+  [H,M] = rk4(dMdH_,[Hstart Hend],M0,50);
+
   otherwise
   
-  try
+  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
+  dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend);
   [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
-  catch
-  H=[Hstart Hend];
-  M=[0 0];
-  fprintf('x');
-  end_try_catch
 
 endswitch
   
