@@ -1,4 +1,4 @@
-﻿function [H,M] = JAsolver(a,k,c,Ms,alpha,Kan,psi,Hstart,Hend,M0,SolverType,FixedStep)
+function [H,M] = JAsolver(a,k,c,Ms,alpha,Kan,psi,Hstart,Hend,M0,SolverType,FixedStep)
 % The MIT License (MIT)
 %
 % Copyright (c) 2016 Roman Szewczyk
@@ -29,7 +29,7 @@
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
-% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis” Journal of Magnetism and Magnetic Materials 61 (1986) 48.
+% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis� Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
