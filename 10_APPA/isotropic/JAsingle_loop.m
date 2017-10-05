@@ -160,7 +160,7 @@ while ik<numel(H)
          Hi(isnan(Hi))=1;
          Mi(isnan(Mi))=1;
          if numel(Hi)>2
-            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic','extrap');
          else
             Mw(ip+1)=Mi(end);
          end
@@ -180,7 +180,7 @@ while ik<numel(H)
          Hi(isnan(Hi))=1;
          Mi(isnan(Mi))=1;
          if numel(Hi)>2
-            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+            Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic','extrap');
          else
             Mw(ip+1)=Mi(end);
          end
@@ -202,7 +202,7 @@ end
 Hi(isnan(Hi))=1;
 Mi(isnan(Mi))=1;
 if numel(Hi)>2
-   Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic');
+   Mw(ip+1:ik)=interp1(Hi,Mi,H(ip+1:ik),'cubic','extrap');
 else
    Mw(ip+1)=Mi(end);
 end
