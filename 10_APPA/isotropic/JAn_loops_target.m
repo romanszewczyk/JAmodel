@@ -129,7 +129,7 @@ if ((a<0) || (k<0) || (c<0) || (c>1) || (alpha<0) || (Kan<0))
     return
 end           % check if parameters are physical
 
-BsimT = JAn_loops(HmeasT,a,k,c,Ms,alpha,ModelType,SolverType,IsoAniso,Kan,psi,IntType);
+BsimT = JAn_loops(HmeasT,a,k,c,Ms,alpha,ModelType,SolverType,IsoAniso,AnisoType,Kan,psi,IntType);
 
 Ftarget=sum(sum((BmeasT-BsimT).^2));  % calculate target function
 
