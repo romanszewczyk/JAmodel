@@ -58,7 +58,9 @@ function result = dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend,ModelType,IsoAniso,AnisoTy
 %             0 - isotropic model - DEFAULT
 %             1 - anisotropic model
 %
-% AnisoType - 
+% AnisoType - select the type of anisotropy model
+%               0: uniaxial anisotropy
+%               1: GO anisotropy
 %
 % Kan  - average magnetic anisotropy density, K/m3 (scalar)
 % psi  - the angle between a direction of the easy axis of magnetic anisotropy and the direction of the magnetizing field, rad (scalar)
