@@ -43,21 +43,9 @@ function result = Mah_aniso(a, Ms, Kan, psi, HeT, AnisoType,IntType)
 % Kan  - average magnetic anisotropy density, K/m3 (scalar)
 % psi  - the angle between a direction of the easy axis of magnetic anisotropy and the direction of the magnetizing field, rad (scalar)
 % HeT  - effective magnetizing field, A/m (scalar, vector. Matrix is not acceptable)
-% HmeasT - magnetizing field, A/m (set of column vectors - matrix, A/m)
-% a    - quantifies domain density, A/m (scalar)
-% k    - quantifies average energy required to break pinning side, A/m (scalar)
-% c    - magnetization reversibility, 0..1 (scalar)
-% Ms   - saturation magnetization, A/m (scalar)
-% alpha - Bloch coefficient (scalar)
-%
-% 
-% IntType - select the solver for integration:
-%               0: quadtrapz() - DEFAULT
-%               1: quadgk()
-%
-% AnisoType - select the type of anisotropy model
-%               0: uniaxial anisotropy
-%               1: GO anisotropy
+% FixedStep - alghoritm for numerical integration:
+%	      0 - quadgk() - Gaus-Kronrod quadrature
+% 	    1 - trapz()  - trapezoidal
 %
 % OUTPUT:
 % result - value of anhysteretic, anisotropic magnetization in Jiles-Atherton model, A/m (scalar, vector or matrix, size of He)
@@ -97,12 +85,12 @@ else
 
        He=HeT(j);
 
-       if AnisoType==0  % uniaxial anisotropy
+       if AnisoType==1  % GO anisotropy
        e1 = @(theta) (He)./a.*cos(theta)-Kan./(Ms.*a.*4.*pi.*1e-7).*((cos(psi-theta)).^2.*(sin(psi-theta)).^2+0.25.*(sin(psi-theta)).^4);
        e2 = @(theta) (He)./a.*cos(theta)-Kan./(Ms.*a.*4.*pi.*1e-7).*((cos(psi+theta)).^2.*(sin(psi+theta)).^2+0.25.*(sin(psi+theta)).^4);
        F1 = @(theta) exp(0.5.*(e1(theta)+e2(theta))).*sin(theta).*cos(theta);
        F2 = @(theta) exp(0.5.*(e1(theta)+e2(theta))).*sin(theta);
-       else   % GO anisotropy
+       else   % uniaxial anisotropy
        e1 = @(theta) (He)./a.*cos(theta)-Kan./(Ms.*a.*4.*pi.*1e-7).*(sin(psi-theta)).^2;
        e2 = @(theta) (He)./a.*cos(theta)-Kan./(Ms.*a.*4.*pi.*1e-7).*(sin(psi+theta)).^2;
        F1 = @(theta) exp(0.5.*(e1(theta)+e2(theta))).*sin(theta).*cos(theta);
