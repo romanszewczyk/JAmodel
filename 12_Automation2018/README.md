@@ -9,5 +9,4 @@ DemoPeng_et_al.m 	      - for re-calculation of results
 DemoPeng_et_al_view.m   - for visualization of the results, results included in this repository
 
 
-Please note that these scripts are not working with MATLAB
-Scripts require differential evolution implementation in de_min() finction.
+Please note that these scripts are not working with MATLAB. Presented scripts require differential evolution implementation in de_min() finction.
