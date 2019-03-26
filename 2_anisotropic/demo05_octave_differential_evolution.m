@@ -99,7 +99,7 @@ fprintf('\n\nOptimiation process done.\n\n');
 Ftarget=func(JApoint_res);
 
 BsimT = JAn_loops(JApoint0(1).*JApoint_res(1), JApoint0(2).*JApoint_res(2), JApoint0(3).*JApoint_res(3), ...
- JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6), pi./2, HmeasT, BmeasT, SolverType, FixedStep );
+ JApoint0(4).*JApoint_res(4), JApoint0(5).*JApoint_res(5), JApoint0(6).*JApoint_res(6), pi./2, HmeasT, SolverType, FixedStep );
 
 fprintf('Results of optimisation:\n'); 
 fprintf('Target function value: Ftarget=%f\n',Ftarget);
