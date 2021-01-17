@@ -41,10 +41,10 @@ if strcmp(t(1).Name,'Octave')==0
    end
 
 if (strcmp(PkgName,'odepkg')==1) && (str2num(t(1).Version(1))+0.1.*str2num(t(1).Version(3)) >= 4.2)
-   fprintf('\n\n *** ode23() ans ode45() buld-in Octave 4.2 or higher are not reliable.');
-   fprintf('\n Package odepkg necessary or use Octave 4.0 !***\n\n');
-   % result=1;
-   % return;
+   fprintf('\n\n *** ode23() ans ode45() are buld-in Octave 4.2 or higher.');
+   fprintf('\n Package odepkg is necessary only for Octave 4.0 or lower.\n\n');
+   result=1;
+   return;
    end
 
 inst_pkg = pkg ('list');
