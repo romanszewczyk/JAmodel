@@ -68,7 +68,7 @@ if Hend==Hstart
    return
    end
 
-options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
+options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',abs(Hend-Hstart)./10);    
   
 dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,M,H,Hstart,Hend,ModelType,IsoAniso,AnisoType,Kan,psi,IntType);
 
