@@ -29,7 +29,7 @@ function [H,M] = JAsolver(a,k,c,Ms,alpha,Kan,psi,Hstart,Hend,M0,SolverType,Fixed
 % AUTHOR: Roman Szewczyk, rszewczyk@onet.pl
 %
 % RELATED PUBLICATION(S):
-% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresisî Journal of Magnetism and Magnetic Materials 61 (1986) 48.
+% [1] Jiles D. C., Atherton D. "Theory of ferromagnetic hysteresis‚Äù Journal of Magnetism and Magnetic Materials 61 (1986) 48.
 % [2] Szewczyk R. "Computational problems connected with Jiles-Atherton model of magnetic hysteresis". Advances in Intelligent Systems and Computing (Springer) 267 (2014) 275.
 %
 % USAGE:
@@ -68,7 +68,7 @@ if Hend==Hstart
    return
    end
 
-options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
+options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',abs(Hend-Hstart)./10);    
   
 switch (SolverType)
 
@@ -94,7 +94,7 @@ switch (SolverType)
 
   otherwise
   
-  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',(Hend-Hstart)./10);    
+  options=odeset('RelTol',1e-4,'AbsTol',1e-6,'MaxStep',abs(Hend-Hstart)./10,'InitialStep',abs(Hend-Hstart)./10);    
   dMdH_=@(H,M) dMdH(a,k,c,Ms,alpha,Kan,psi,M,H,Hstart,Hend,FixedStep);
   [H,M] = ode23(dMdH_,[Hstart Hend],M0,options);
 
